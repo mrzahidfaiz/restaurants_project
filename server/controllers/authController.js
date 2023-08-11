@@ -14,6 +14,7 @@ const authController = {
       email: Joi.string().email().required(),
       password: Joi.string().pattern(passwordPattren).required(),
       confirmpassword: Joi.ref("password"),
+      role: Joi.string().required(),
     });
 
     const { error } = userRegisterSchema.validate(req.body);
@@ -21,7 +22,7 @@ const authController = {
       return next(error);
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     try {
       const emailInUse = await User.exists({ email: email });
@@ -46,6 +47,7 @@ const authController = {
         name: name,
         email: email,
         password: hashPassword,
+        role: role
       });
 
       user = await newRegisteredUser.save();
@@ -223,6 +225,23 @@ const authController = {
     const userDto = new UserDTO(user);
 
     return res.status(200).json({ user: userDto, auth: true });
+  },
+
+  async getAllUsers(req, res, next) {
+    try {
+      const users = await User.find({});
+
+      const allUsers = [];
+
+      for (let i = 0; i < users.length; i++) {
+        const dto = new UserDTO(users[i]);
+        allUsers.push(dto);
+      }
+
+      return res.status(200).json({ users: allUsers });
+    } catch (error) {
+      return next(error);
+    }
   },
 };
 
