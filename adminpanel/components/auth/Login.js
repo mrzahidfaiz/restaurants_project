@@ -47,13 +47,13 @@ const Login = () => {
   };
   return (
     <>
-        <div className="flex justify-center px-6 my-12">
+        <div className="flex justify-center px-6 py-20">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">
             <div
-              className="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
+              className="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-xl"
               style={{
                 backgroundImage:
-                  'url("https://source.unsplash.com/oWTW-jNGl9I/600x800")',
+                  'url("https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80")',
               }}
             />
             <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
@@ -101,22 +101,14 @@ const Login = () => {
                 </div>
                 <div className="mb-6 text-center">
                   <button
-                    className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
+                    className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-xl hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     type="submit"
                   >
-                    Login
+                    LOGIN
                   </button>
                 </div>
-                <hr className="mb-6 border-t" />
-                {error != "" ? <p className="text-red-400">{error}</p> : ""}
-                <div className="text-center">
-                  <Link
-                    className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                    href="/admin/signup"
-                  >
-                    Create an Account! Signup
-                  </Link>
-                </div>
+                {/* <hr className="mb-6 border-t" /> */}
+                {error != "" ? <p className="text-red-400 text-center w-full">{error}</p> : ""}
               </form>
             </div>
           </div>

@@ -92,6 +92,7 @@ const index = (props) => {
                         <button
                           x-data="{ tooltip: 'Delete' }"
                           onClick={() => deleteHanlder(product._id)}
+                          className="hover:text-red-600"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +113,7 @@ const index = (props) => {
                         <Link
                           x-data="{ tooltip: 'Edite' }"
                           href={`/admin/products/update/${product._id}`}
+                          className="hover:text-green-600"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

@@ -4,10 +4,12 @@ import { submitProduct } from "@/pages/api/internalApi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { PlusOutlined } from "@ant-design/icons";
+import { Modal, Upload } from "antd";
+import { Input } from "antd";
 
 const index = () => {
   const router = useRouter();
-  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const { values, handleChange } = useFormik({
@@ -35,7 +37,7 @@ const index = () => {
       category: values.category,
       totalStock: values.totalStock,
       available: values.available,
-      images,
+      images: fileList,
     };
 
     const response = await submitProduct(data);
@@ -51,16 +53,56 @@ const index = () => {
     }
   };
 
-  const imagesHandler = (e) => {
-    const files = Array.from(e.target.files);
-    files.forEach((file) => {
+  // ant.d
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState([]);
+
+  // const imagesHandler = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   files.forEach((file) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onloadend = () => {
+  //       setImages((oldArray) => [...oldArray, reader.result]);
+  //     };
+  //   });
+  // };
+  // ant.design
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImages((oldArray) => [...oldArray, reader.result]);
-      };
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
     });
+
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
   };
+  const handlerChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
+
 
   return (
     <div
@@ -219,7 +261,7 @@ const index = () => {
                 placeholder="Your description here"
               />
             </div>
-            <div className="sm:col-span-2 mt-6">
+            {/* <div className="sm:col-span-2 mt-6">
               <label
                 htmlFor="name"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -280,6 +322,32 @@ const index = () => {
                   />
                 </label>
               </div>
+            </div> */}
+            <div className="sm:col-span-2 mt-6">
+              <Upload
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                listType="picture-card"
+                fileList={fileList}
+                multiple
+                onPreview={handlePreview}
+                onChange={handlerChange}
+              >
+                {fileList.length >= 5 ? null : uploadButton}
+              </Upload>
+              <Modal
+                open={previewOpen}
+                title={previewTitle}
+                footer={null}
+                onCancel={handleCancel}
+              >
+                <img
+                  alt="example"
+                  style={{
+                    width: "100%",
+                  }}
+                  src={previewImage}
+                />
+              </Modal>
             </div>
             {loading ? (
               
@@ -291,7 +359,7 @@ const index = () => {
                 <svg
                   aria-hidden="true"
                   role="status"
-                  class="inline cursor-not-allowed w-4 h-4 mr-3 text-white animate-spin"
+                  className="inline cursor-not-allowed w-4 h-4 mr-3 text-white animate-spin"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -316,7 +384,7 @@ const index = () => {
               </button>
             )}
             <Link
-              href="/products"
+              href="/admin/products"
               className="text-white mt-4 cursor-pointer bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
             >
               Close

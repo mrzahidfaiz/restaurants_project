@@ -163,9 +163,8 @@ const productController = {
 
     const oldImages = images.filter((image) => image.url);
 
-    console.log(oldImages);
 
-    const oldImagesSecreUrls = oldImages.map((image) => image.url); //returns
+    const oldImagesSecreUrls = oldImages.map((image) => image.url); 
 
     try {
       const oldProduct = await Product.findOne({ _id: id });

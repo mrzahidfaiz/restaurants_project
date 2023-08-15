@@ -151,14 +151,14 @@ const NavbarLayout = ({children}) => {
             {isLoggedIn ? (
               <button
                 onClick={logoutHandler}
-                className="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3"
+                className="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3 hover:shadow-md"
               >
                 Logout
               </button>
             ) : (
               <Link
                 href="/login"
-                className="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3"
+                className="hidden hover:shadow-lg sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3"
               >
                 Login
               </Link>
@@ -287,7 +287,7 @@ const NavbarLayout = ({children}) => {
                 </li>
                 <li>
                   <Link
-                    href="/orders"
+                    href="/admin/orders"
                     className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group "
                   >
                     <svg
